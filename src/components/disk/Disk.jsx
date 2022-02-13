@@ -7,13 +7,14 @@ import Grid from '@mui/material/Grid';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFiles } from '../../actions/file';
-import { setPopupDisplay } from '../../reducers/fileReducer';
+import { setCurrentDir, setPopupDisplay } from '../../reducers/fileReducer';
 import FileList from './fileList/FileList';
 import Popup from './Popup';
 
 const Disk = () => {
     const dispatch = useDispatch();
     const currentDir = useSelector(state => state.files.currentDir);
+    const dirStack = useSelector(state => state.files.dirStack);
 
     useEffect(() => {
         dispatch(getFiles(currentDir));
@@ -23,15 +24,20 @@ const Disk = () => {
         dispatch(setPopupDisplay(true));
     }
 
+    const onBackHandlerClicked = () => {
+        const backDirId = dirStack.pop();
+        dispatch(setCurrentDir(backDirId));
+    }
+
     return (
         <>
             <Grid container justifyContent="center">
                 <Grid item xs={6} padding='1rem'>
 
-                    <Button variant="outlined" style={{ marginBottom: '1rem' }}><KeyboardReturnIcon /></Button>
+                    <Button variant="outlined" style={{ marginBottom: '1rem' }} onClick={() => onBackHandlerClicked()}><KeyboardReturnIcon /></Button>
                     <br />
-                    <Button variant="outlined">
-                        <Typography component="h4" variant="div" onClick={() => showPopUp()}>
+                    <Button variant="outlined"  onClick={() => showPopUp()}>
+                        <Typography component="h4" variant="div">
                             Create new folder
                         </Typography>
                     </Button>
