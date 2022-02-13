@@ -1,14 +1,15 @@
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import SortIcon from '@mui/icons-material/Sort';
+import { Box, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFiles } from '../../actions/file';
-import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
-import { Box, IconButton, ListItem, Typography } from '@mui/material';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import SortIcon from '@mui/icons-material/Sort';
+import { setPopupDisplay } from '../../reducers/fileReducer';
 import FileList from './fileList/FileList';
+import Popup from './Popup';
 
 const Disk = () => {
     const dispatch = useDispatch();
@@ -17,6 +18,11 @@ const Disk = () => {
     useEffect(() => {
         dispatch(getFiles(currentDir));
     }, [currentDir]);
+
+    const showPopUp = () => {
+        dispatch(setPopupDisplay(true));
+    }
+
     return (
         <>
             <Grid container justifyContent="center">
@@ -25,7 +31,7 @@ const Disk = () => {
                     <Button variant="outlined" style={{ marginBottom: '1rem' }}><KeyboardReturnIcon /></Button>
                     <br />
                     <Button variant="outlined">
-                        <Typography component="h3" variant="div">
+                        <Typography component="h4" variant="div" onClick={() => showPopUp()}>
                             Create new folder
                         </Typography>
                     </Button>
@@ -53,6 +59,7 @@ const Disk = () => {
 
                             </div>
                         </Box>
+                        <Popup/>
                     </Grid>
                 </Grid>
             </Grid>

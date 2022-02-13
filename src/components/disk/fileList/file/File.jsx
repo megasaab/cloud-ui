@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
-import { Divider, ListItemAvatar, ListItemIcon, Typography } from '@mui/material';
+import { Divider, ListItemIcon, Typography } from '@mui/material';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 
 const File = ({ file }) => {
     return (
@@ -11,7 +12,7 @@ const File = ({ file }) => {
                         <div style={{ marginLeft: '1rem' }}>
                             <ListItemIcon>
 
-                                <FolderOpenIcon fontSize='large' />
+                                {file.type === 'dir' ? <FolderOpenIcon fontSize='large' /> : <InsertDriveFileIcon fontSize='large'/> }
 
                             </ListItemIcon>
                         </div>
@@ -19,21 +20,21 @@ const File = ({ file }) => {
                     <Box gridColumn="span 1">
                         <div>
                             <Typography component="h3" variant="div" color='secondary'>
-                                {file.name}
+                                {file?.name}
                             </Typography>
                         </div>
                     </Box>
                     <Box gridColumn="span 2" justifySelf='center'>
                         <div>
-                            <Typography component="h5" variant="div" color='gray'>
-                                {file.date}
+                            <Typography component="h3" variant="div" color='gray'>
+                                {file?.date?.slice(0, 10)}
                             </Typography>
                         </div>
                     </Box>
                     <Box gridColumn="span 2" justifySelf='center'>
                         <div>
-                            <Typography component="h5" variant="div" color='gray'>
-                                {file.size}
+                            <Typography component="h3" variant="div" color='gray'>
+                                {file?.size}
                             </Typography>
                         </div>
                     </Box>
