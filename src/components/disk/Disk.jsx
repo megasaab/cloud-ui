@@ -6,10 +6,11 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFiles } from '../../actions/file';
+import { getFiles, uploadFile } from '../../actions/file';
 import { setCurrentDir, setPopupDisplay } from '../../reducers/fileReducer';
 import FileList from './fileList/FileList';
 import Popup from './Popup';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 const Disk = () => {
     const dispatch = useDispatch();
@@ -29,6 +30,13 @@ const Disk = () => {
         dispatch(setCurrentDir(backDirId));
     }
 
+    const fileUploadHandler = (event) => {
+        const files = [...event.target.files];
+        files.forEach(file => {
+            dispatch(uploadFile(file));
+        });
+    }
+
     return (
         <>
             <Grid container justifyContent="center">
@@ -36,10 +44,23 @@ const Disk = () => {
 
                     <Button variant="outlined" style={{ marginBottom: '1rem' }} onClick={() => onBackHandlerClicked()}><KeyboardReturnIcon /></Button>
                     <br />
-                    <Button variant="outlined"  onClick={() => showPopUp()}>
+                    <Button variant="outlined" onClick={() => showPopUp()} sx={{ mr: 2 }}>
                         <Typography component="h4" variant="div">
                             Create new folder
                         </Typography>
+                    </Button>
+                    <Button
+                        variant="contained"
+                        component="label"
+                    >
+                        <CloudUploadIcon sx={{ mr: 1 }} />
+                        <span>Upload File</span>
+                        <input
+                            multiple={true}
+                            onChange={(event) => fileUploadHandler(event)}
+                            type="file"
+                            hidden
+                        />
                     </Button>
                 </Grid>
                 <Grid item container xs={6} alignItems="flex-end" direction="column" padding='1rem'>
@@ -65,7 +86,7 @@ const Disk = () => {
 
                             </div>
                         </Box>
-                        <Popup/>
+                        <Popup />
                     </Grid>
                 </Grid>
             </Grid>

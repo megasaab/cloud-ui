@@ -11,20 +11,22 @@ const File = ({ file }) => {
     const currentDir = useSelector(state => state.files.currentDir);
 
     const openDirHandler = () => {
-        dispatch(pushToStack(currentDir));
-        dispatch(setCurrentDir(file._id))
+        if (file.type === 'dir') {
+            dispatch(pushToStack(currentDir));
+            dispatch(setCurrentDir(file._id));
+        }
     }
-    
+
 
     return (
         <>
-            <Box sx={{ width: 1, mb: 1, mt: 1, alignItems: 'center', cursor: 'pointer' }} onClick={file.type === 'dir' ? () => openDirHandler(): ''}>
+            <Box sx={{ width: 1, mb: 1, mt: 1, alignItems: 'center', cursor: 'pointer' }} onClick={() => openDirHandler()}>
                 <Box display="grid" alignItems='center' gridTemplateColumns="1fr 4fr repeat(4, 1fr)" gap={2}>
                     <Box gridColumn="span 1">
                         <div style={{ marginLeft: '1rem' }}>
                             <ListItemIcon>
 
-                                {file.type === 'dir' ? <FolderOpenIcon fontSize='large' /> : <InsertDriveFileIcon fontSize='large'/> }
+                                {file.type === 'dir' ? <FolderOpenIcon fontSize='large' /> : <InsertDriveFileIcon fontSize='large' />}
 
                             </ListItemIcon>
                         </div>
