@@ -33,7 +33,7 @@ const Disk = () => {
     const fileUploadHandler = (event) => {
         const files = [...event.target.files];
         files.forEach(file => {
-            dispatch(uploadFile(file));
+            dispatch(uploadFile(file, currentDir));
         });
     }
 
