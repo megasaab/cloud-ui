@@ -3,10 +3,10 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import { Divider, ListItemIcon, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useDispatch, useSelector } from 'react-redux';
-import { pushToStack, setCurrentDir } from '../../../../reducers/fileReducer';
+import { deleteFileAction, pushToStack, setCurrentDir } from '../../../../reducers/fileReducer';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { downloadFile } from '../../../../actions/file';
+import { deleteFile, downloadFile } from '../../../../actions/file';
 
 const File = ({ file }) => {
 
@@ -23,6 +23,11 @@ const File = ({ file }) => {
     const downloadClickHandlder = (event) => {
         event.stopPropagation();
         downloadFile(file);
+    }
+
+    const deleteFileHandler = (event) => {
+        event.stopPropagation();
+        dispatch(deleteFile(file));
     }
 
 
@@ -60,7 +65,7 @@ const File = ({ file }) => {
                                     {file.type !== 'dir' && <CloudDownloadIcon onClick={(event) => downloadClickHandlder(event)} fontSize='large' sx={{ mr: 3 }} color='success'/>}
                                 </div>
                                 <div>
-                                    {<DeleteIcon color='error' fontSize='large'/>}
+                                    {<DeleteIcon onClick={(event) => deleteFileHandler(event)} color='error' fontSize='large'/>}
                                 </div>
                             </div>
                         </Box>

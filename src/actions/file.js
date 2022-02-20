@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { TEST_URL } from '../constant';
-import { addFile, setFiles } from '../reducers/fileReducer';
+import { addFile, deleteFileAction, setFiles } from '../reducers/fileReducer';
 
 export function getFiles(dirId) {
     return async dispatch => {
@@ -83,5 +83,21 @@ export async function downloadFile(file) {
         document.body.appendChild(link);
         link.click();
         link.remove();
+    }
+}
+
+export function deleteFile(file) {
+    return async dispatch => {
+        try {
+            const response = await axios.delete(`${TEST_URL}/files?id=${file._id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}` 
+                }
+            })
+            dispatch(deleteFileAction(file._id));
+            alert(response.data.message);
+        } catch (error) {
+            alert(error.response.data.message);
+        }
     }
 }
