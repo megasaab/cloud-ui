@@ -3,10 +3,11 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import { Divider, ListItemIcon, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteFileAction, pushToStack, setCurrentDir } from '../../../../reducers/fileReducer';
+import { pushToStack, setCurrentDir } from '../../../../reducers/fileReducer';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteFile, downloadFile } from '../../../../actions/file';
+import { formatSize } from '../../../../utils/formatSize';
 
 const File = ({ file }) => {
 
@@ -72,7 +73,7 @@ const File = ({ file }) => {
                         <Box gridColumn="span 1" justifySelf='center'>
                             <div>
                                 <Typography component="h3" variant="div" color='gray'>
-                                    {file?.size}
+                                    {formatSize(file?.size)}
                                 </Typography>
                             </div>
                         </Box>
