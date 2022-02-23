@@ -11,6 +11,7 @@ import { setCurrentDir, setPopupDisplay } from '../../reducers/fileReducer';
 import FileList from './fileList/FileList';
 import Popup from './Popup';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import Uploader from './uploader/Uploader';
 
 const Disk = () => {
     const dispatch = useDispatch();
@@ -91,6 +92,7 @@ const Disk = () => {
                 </Grid>
             </Grid>
             <FileList />
+            <Uploader />
         </>
     )
 }
