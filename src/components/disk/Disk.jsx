@@ -1,10 +1,11 @@
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import SortIcon from '@mui/icons-material/Sort';
 import { Box, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFiles, uploadFile } from '../../actions/file';
 import { setCurrentDir, setPopupDisplay } from '../../reducers/fileReducer';
@@ -17,10 +18,11 @@ const Disk = () => {
     const dispatch = useDispatch();
     const currentDir = useSelector(state => state.files.currentDir);
     const dirStack = useSelector(state => state.files.dirStack);
+    const [sort, setSort] = useState(1);
 
     useEffect(() => {
-        dispatch(getFiles(currentDir));
-    }, [currentDir]);
+        dispatch(getFiles(currentDir, sort));
+    }, [currentDir, sort]);
 
     const showPopUp = () => {
         dispatch(setPopupDisplay(true));
@@ -76,10 +78,19 @@ const Disk = () => {
                                 borderRadius: 1,
                             }}
                         >
-                            <div>
-                                <ArrowDownwardIcon />
-                                <SortIcon />
-                            </div>
+                            {sort === 1 ?
+                                <div style={{ cursor: 'pointer' }} onClick={() => setSort(-1)}>
+                                    <ArrowDownwardIcon />
+                                    <SortIcon />
+                                </div>
+                                :
+                                <div>
+                                    <div style={{ cursor: 'pointer' }} onClick={() => setSort(1)}>
+                                        < ArrowUpwardIcon />
+                                        <SortIcon style={{transform: "rotate(-180deg)"}} />
+                                    </div>
+                                </div>
+                            }
                             <div>
 
                             </div>

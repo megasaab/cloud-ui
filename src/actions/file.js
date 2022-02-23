@@ -3,11 +3,22 @@ import { TEST_URL } from '../constant';
 import { addFile, deleteFileAction, setFiles } from '../reducers/fileReducer';
 import { addUploadFile, changeUploadFile, showUploader } from '../reducers/uploadReducer';
 
-export function getFiles(dirId) {
+export function getFiles(dirId, sort) {
     return async dispatch => {
         try {
-            const queryParams = dirId ? '?parent=' + dirId : '';
-            const response = await axios.get(`${TEST_URL}/files${queryParams}`,
+            let url = `${TEST_URL}/files`
+            if (dirId) {
+                url = `${TEST_URL}/files?parent=${dirId}`;
+            }
+
+            if (sort) {
+                url = `${TEST_URL}/files?sort=${sort}`;
+            }
+
+            if (dirId && sort) {
+                url = `${TEST_URL}/files?parent=${dirId}&sort=${sort}`;
+            }
+            const response = await axios.get(url,
                 { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
             );
             dispatch(setFiles(response.data))
@@ -45,7 +56,7 @@ export function uploadFile(file, dirId) {
             if (dirId) {
                 formData.append('parent', dirId);
             }
-            const uploadFile = {name: file.name, progress: 0, id: new Date().getTime()};
+            const uploadFile = { name: file.name, progress: 0, id: new Date().getTime() };
             dispatch(showUploader());
             dispatch(addUploadFile(uploadFile));
             const response = await axios.post(`${TEST_URL}/files/upload`, formData,
@@ -74,7 +85,7 @@ export function uploadFile(file, dirId) {
 export async function downloadFile(file) {
     const response = await fetch(`${TEST_URL}/files/download?id=${file._id}`, {
         headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}` 
+            Authorization: `Bearer ${localStorage.getItem('token')}`
         }
     });
     if (response.status === 200) {
@@ -94,7 +105,7 @@ export function deleteFile(file) {
         try {
             const response = await axios.delete(`${TEST_URL}/files?id=${file._id}`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}` 
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             })
             dispatch(deleteFileAction(file._id));
