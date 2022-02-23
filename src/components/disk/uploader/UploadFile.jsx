@@ -2,6 +2,7 @@ import { Alert, AlertTitle, Button, IconButton } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from "react-redux";
 import { removeUploadFile } from "../../../reducers/uploadReducer";
+import LinearProgressBar from "../../../utils/LinearProgress";
 
 const UploadFile = ({ file }) => {
     const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const UploadFile = ({ file }) => {
                     {file.name}
                 </div>
             </AlertTitle>
-            {file.progress}
+            <LinearProgressBar  progress={file.progress}/>
         </Alert>
     )
 }
