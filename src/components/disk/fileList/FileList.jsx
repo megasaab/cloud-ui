@@ -3,9 +3,18 @@ import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import File from './file/File';
 import { Divider } from '@mui/material';
+import SearchOffIcon from '@mui/icons-material/SearchOff';
 export default function FileList() {
 
     const files = useSelector(state => state.files.files).map(file => <File key={file._id} file={file} />);
+
+    if (files.length === 0) {
+        return (
+            <Box sx={{ width: 1, justifyContent: 'center' , display: 'flex', alignItems: 'center', mt: '10rem'}}>
+                <SearchOffIcon /><h3>Файлы не найдены</h3>
+            </Box>
+        )
+    }
 
     return (
         <>
